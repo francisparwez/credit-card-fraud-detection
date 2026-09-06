@@ -24,7 +24,7 @@ The project will focus on handling class imbalance correctly, comparing classifi
 
 ✅ Complete
 
-The first stage covers:
+The first stage covered:
 
 - dataset inspection
 - data quality checks
@@ -38,11 +38,31 @@ The first stage covers:
 - ROC-AUC
 - PR-AUC
 
+### 02 — Leakage-Safe Preprocessing & Pipeline Setup
+
+✅ Complete
+
+The second stage covered:
+
+- feature and target separation
+- stratified train-test split
+- verification of class proportions
+- preprocessing pipeline setup
+- imbalanced-learn pipeline setup
+- leakage prevention
+- keeping the test data untouched
+
 ## Initial Finding
 
 A model that predicts every transaction as legitimate achieves approximately 99.83% accuracy while detecting no fraudulent transactions.
 
 This shows why accuracy alone is not suitable for evaluating fraud detection models.
+
+## Part 02 Finding
+
+The dataset was split into training and test sets using stratification so that the rare fraud class remained represented at approximately the same rate in both sets.
+
+Preprocessing was placed inside a pipeline, and an imbalanced-learn pipeline was introduced so that future resampling methods can be applied only to training data during cross-validation.
 
 ## Current Files
 

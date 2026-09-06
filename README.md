@@ -23,7 +23,7 @@ The goal is to build a fraud detection workflow that:
 
 ✅ Complete
 
-The first stage covers:
+The first stage covered:
 
 - loading and inspecting the dataset
 - checking missing values and duplicates
@@ -32,6 +32,20 @@ The first stage covers:
 - creating a naive all-legitimate baseline
 - showing why accuracy is misleading for this problem
 - introducing the main evaluation metrics
+
+### Part 02 — Leakage-Safe Preprocessing & Pipeline Setup
+
+✅ Complete
+
+The second stage covered:
+
+- separating features and target
+- creating a stratified 80/20 train-test split
+- checking that the fraud rate was preserved
+- setting up preprocessing inside a pipeline
+- introducing an imbalanced-learn pipeline
+- keeping future resampling inside the training workflow
+- keeping the test set untouched
 
 ## Dataset
 
@@ -63,6 +77,16 @@ The class distribution is shown below.
 The same imbalance is shown as percentages below.
 
 ![Transaction Class Distribution](images/2_class_distribution_percentage.png)
+
+## Leakage-Safe Modeling Setup
+
+The dataset is split using stratification so that the small fraud class remains represented in both training and test data.
+
+Preprocessing is kept inside a pipeline rather than being applied to the full dataset before splitting.
+
+An imbalanced-learn pipeline is also set up so that resampling methods can later be applied only during model training and cross-validation.
+
+The test set is kept separate from preprocessing, resampling, and model selection.
 
 ## Project Structure
 
