@@ -47,6 +47,50 @@ The second stage covered:
 - keeping future resampling inside the training workflow
 - keeping the test set untouched
 
+### Part 03 — Imbalance Strategy Comparison
+
+✅ Complete
+
+The third stage compared three imbalance-handling strategies using the same Logistic Regression model:
+
+- class weighting
+- random undersampling
+- SMOTE oversampling
+
+The strategies were evaluated using stratified 5-fold cross-validation on the training data.
+
+The metrics used were:
+
+- precision
+- recall
+- F1-score
+- ROC-AUC
+- PR-AUC
+
+## Imbalance Strategy Results
+
+The three strategies produced different trade-offs between precision and recall.
+
+![Imbalance Strategy Comparison](images/3_imbalance_strategy_comparison.png)
+
+PR-AUC was also compared separately because the fraud class is extremely rare.
+
+![PR-AUC by Strategy](images/4_pr_auc_by_strategy.png)
+
+| Strategy             | Precision | Recall |     F1 | ROC-AUC | PR-AUC |
+| -------------------- | --------: | -----: | -----: | ------: | -----: |
+| Class Weighting      |    0.0628 | 0.9138 | 0.1175 |  0.9825 | 0.7571 |
+| Random Undersampling |    0.0369 | 0.9163 | 0.0708 |  0.9818 | 0.6623 |
+| SMOTE                |    0.0581 | 0.9188 | 0.1093 |  0.9805 | 0.7528 |
+
+Class weighting gave the strongest overall results, with the highest precision, F1-score, ROC-AUC and PR-AUC.
+
+SMOTE achieved the highest recall, but its precision and F1-score were slightly lower than class weighting.
+
+Random undersampling had a similar recall to the other strategies but produced the lowest precision, F1-score and PR-AUC.
+
+Based on the cross-validation results, class weighting was the strongest overall strategy at this stage.
+
 ## Dataset
 
 The dataset contains 284,807 credit card transactions and 31 columns.
@@ -98,9 +142,10 @@ credit-card-fraud-detection/
 ├── notebooks/
 │   └── 01_credit_card_fraud_detection.ipynb
 ├── images/
-│   └── 1_class_distribution.png
-│   └── 2_class_distribution_percentage.png
-│
+│   ├── 1_class_distribution.png
+│   ├── 2_class_distribution_percentage.png
+│   ├── 3_imbalance_strategy_comparison.png
+│   └── 4_pr_auc_by_strategy.png
 ├── .gitignore
 ├── README.md
 ├── SUMMARY.md
@@ -116,5 +161,6 @@ credit-card-fraud-detection/
 - Seaborn
 - scikit-learn
 - Jupyter
+- imbalanced-learn
 
 More tools will be added later as the modeling stages are completed.

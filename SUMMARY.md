@@ -52,6 +52,26 @@ The second stage covered:
 - leakage prevention
 - keeping the test data untouched
 
+### 03 — Imbalance Strategy Comparison
+
+✅ Complete
+
+The third stage compared:
+
+- class weighting
+- random undersampling
+- SMOTE oversampling
+
+All three approaches used Logistic Regression and were evaluated using stratified 5-fold cross-validation.
+
+The evaluation metrics were:
+
+- precision
+- recall
+- F1-score
+- ROC-AUC
+- PR-AUC
+
 ## Initial Finding
 
 A model that predicts every transaction as legitimate achieves approximately 99.83% accuracy while detecting no fraudulent transactions.
@@ -64,11 +84,27 @@ The dataset was split into training and test sets using stratification so that t
 
 Preprocessing was placed inside a pipeline, and an imbalanced-learn pipeline was introduced so that future resampling methods can be applied only to training data during cross-validation.
 
+## Part 03 Finding
+
+The three imbalance strategies produced different precision, recall, F1-score, ROC-AUC and PR-AUC results.
+
+The comparison showed the trade-off between detecting more fraudulent transactions and generating more false positive alerts.
+
+PR-AUC was given particular attention because fraud represents only 0.17% of the dataset.
+
+The strongest strategy at this stage was class weighting.
+
+Class weighting achieved the highest precision, F1-score, ROC-AUC and PR-AUC across the three strategies, while SMOTE achieved the highest recall.
+
+This shows that the strategies produce different trade-offs between catching more fraud and limiting false positive predictions.
+
 ## Current Files
 
 - `notebooks/01_credit_card_fraud_detection.ipynb`
 - `images/1_class_distribution.png`
 - `images/2_class_distribution_percentage.png`
+- `images/3_imbalance_strategy_comparison.png`
+- `images/4_pr_auc_by_strategy.png`
 - `README.md`
 - `SUMMARY.md`
 - `requirements.txt`
