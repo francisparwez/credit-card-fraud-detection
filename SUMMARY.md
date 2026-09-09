@@ -98,6 +98,39 @@ Class weighting achieved the highest precision, F1-score, ROC-AUC and PR-AUC acr
 
 This shows that the strategies produce different trade-offs between catching more fraud and limiting false positive predictions.
 
+## Part 04 — Model Family Comparison
+
+### Status
+
+✅ Complete
+
+Two model families were compared:
+
+- Logistic Regression
+- XGBoost
+
+Both models used the class-weighted approach selected from Part 03 and were evaluated using stratified 5-fold cross-validation.
+
+The models were compared using:
+
+- precision
+- recall
+- F1-score
+- ROC-AUC
+- PR-AUC
+
+Logistic Regression achieved a precision of 0.0628, recall of 0.9138, F1-score of 0.1175, ROC-AUC of 0.9825 and PR-AUC of 0.7571.
+
+XGBoost achieved a precision of 0.5027, recall of 0.8503, F1-score of 0.6301, ROC-AUC of 0.9844 and PR-AUC of 0.8033.
+
+XGBoost performed better overall because it achieved higher precision, F1-score, ROC-AUC and PR-AUC, while Logistic Regression achieved higher recall.
+
+ROC and precision-recall curves were also created to compare model performance across classification thresholds.
+
+The stronger model family at this stage was XGBoost based on the cross-validation results.
+
+The test set remains untouched for final model evaluation.
+
 ## Current Files
 
 - `notebooks/01_credit_card_fraud_detection.ipynb`
@@ -105,6 +138,9 @@ This shows that the strategies produce different trade-offs between catching mor
 - `images/2_class_distribution_percentage.png`
 - `images/3_imbalance_strategy_comparison.png`
 - `images/4_pr_auc_by_strategy.png`
+- `images/5_model_family_roc_curve.png`
+- `images/6_model_family_pr_curve.png`
+- `images/7_model_family_comparison.png`
 - `README.md`
 - `SUMMARY.md`
 - `requirements.txt`

@@ -91,6 +91,38 @@ Random undersampling had a similar recall to the other strategies but produced t
 
 Based on the cross-validation results, class weighting was the strongest overall strategy at this stage.
 
+## Model Family Comparison
+
+Two model families were compared using the class-weighted approach from Part 03:
+
+- Logistic Regression
+- XGBoost
+
+Both models were evaluated using stratified 5-fold cross-validation on the training data.
+
+| Model               | Precision | Recall |     F1 | ROC-AUC | PR-AUC |
+| ------------------- | --------: | -----: | -----: | ------: | -----: |
+| Logistic Regression |    0.0628 | 0.9138 | 0.1175 |  0.9825 | 0.7571 |
+| XGBoost             |    0.5027 | 0.8503 | 0.6301 |  0.9844 | 0.8033 |
+
+### ROC Curve
+
+![Model ROC Curve](images/5_model_family_roc_curve.png)
+
+### Precision-Recall Curve
+
+![Model Precision-Recall Curve](images/6_model_family_pr_curve.png)
+
+### Model Comparison
+
+![Model Family Comparison](images/7_model_family_comparison.png)
+
+XGBoost performed better overall at this stage based on the cross-validation results.
+
+It achieved higher precision, F1-score, ROC-AUC and PR-AUC than Logistic Regression, while Logistic Regression achieved higher recall.
+
+PR-AUC remained an important metric because the fraud class is extremely rare.
+
 ## Dataset
 
 The dataset contains 284,807 credit card transactions and 31 columns.
@@ -145,7 +177,10 @@ credit-card-fraud-detection/
 │   ├── 1_class_distribution.png
 │   ├── 2_class_distribution_percentage.png
 │   ├── 3_imbalance_strategy_comparison.png
-│   └── 4_pr_auc_by_strategy.png
+│   ├── 4_pr_auc_by_strategy.png
+│   ├── 5_model_family_roc_curve.png
+│   ├── 6_model_family_pr_curve.png
+│   └── 7_model_family_comparison.png
 ├── .gitignore
 ├── README.md
 ├── SUMMARY.md
@@ -160,7 +195,8 @@ credit-card-fraud-detection/
 - Matplotlib
 - Seaborn
 - scikit-learn
-- Jupyter
 - imbalanced-learn
+- XGBoost
+- Jupyter
 
 More tools will be added later as the modeling stages are completed.
