@@ -123,6 +123,33 @@ It achieved higher precision, F1-score, ROC-AUC and PR-AUC than Logistic Regress
 
 PR-AUC remained an important metric because the fraud class is extremely rare.
 
+## Cross-Validation & Model Tuning
+
+The two candidate models were tuned using stratified 5-fold cross-validation.
+
+PR-AUC was used as the main selection metric because the fraud class is extremely rare.
+
+| Tuned Model         | Precision | Recall |     F1 | ROC-AUC | PR-AUC |
+| ------------------- | --------: | -----: | -----: | ------: | -----: |
+| Logistic Regression |    0.0628 | 0.9138 | 0.1175 |  0.9825 | 0.7571 |
+| XGBoost             |    0.7685 | 0.8300 | 0.7967 |  0.9804 | 0.8345 |
+
+The best Logistic Regression configuration was:
+
+`C = 1`
+
+The best XGBoost configuration was:
+
+`n_estimators = 200, max_depth = 4, learning_rate = 0.1, subsample = 1.0, colsample_bytree = 0.8`
+
+XGBoost was the strongest tuned model based on cross-validated performance, especially PR-AUC.
+
+Compared with the previous model-family comparison, XGBoost PR-AUC improved from 0.8033 to 0.8345 after tuning.
+
+![Tuned Model Comparison](images/8_tuned_model_comparison.png)
+
+The test set was not used during tuning or model selection and remains reserved for final evaluation.
+
 ## Dataset
 
 The dataset contains 284,807 credit card transactions and 31 columns.
@@ -180,7 +207,8 @@ credit-card-fraud-detection/
 │   ├── 4_pr_auc_by_strategy.png
 │   ├── 5_model_family_roc_curve.png
 │   ├── 6_model_family_pr_curve.png
-│   └── 7_model_family_comparison.png
+│   ├── 7_model_family_comparison.png
+│   └── 8_tuned_model_comparison.png
 ├── .gitignore
 ├── README.md
 ├── SUMMARY.md

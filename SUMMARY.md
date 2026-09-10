@@ -131,6 +131,36 @@ The stronger model family at this stage was XGBoost based on the cross-validatio
 
 The test set remains untouched for final model evaluation.
 
+## Part 05 — Cross-Validation & Model Tuning
+
+### Status
+
+✅ Complete
+
+Logistic Regression and XGBoost were tuned using stratified 5-fold cross-validation.
+
+The models were compared using:
+
+- precision
+- recall
+- F1-score
+- ROC-AUC
+- PR-AUC
+
+PR-AUC was used as the main selection metric because the fraud class is extremely rare.
+
+The best Logistic Regression configuration used C = 1 and achieved a PR-AUC of 0.7571.
+
+The best XGBoost configuration used 200 estimators, a maximum tree depth of 4, a learning rate of 0.1, a subsample ratio of 1.0 and a column sampling ratio of 0.8. It achieved a PR-AUC of 0.8345.
+
+XGBoost was the strongest tuned model based on the cross-validation results.
+
+Compared with the previous model-family comparison, XGBoost PR-AUC improved from 0.8033 to 0.8345 after tuning.
+
+The selected XGBoost model will be used in the next stage for threshold tuning and business cost analysis.
+
+The test set remains untouched for final evaluation.
+
 ## Current Files
 
 - `notebooks/01_credit_card_fraud_detection.ipynb`
@@ -141,6 +171,7 @@ The test set remains untouched for final model evaluation.
 - `images/5_model_family_roc_curve.png`
 - `images/6_model_family_pr_curve.png`
 - `images/7_model_family_comparison.png`
+- `images/8_tuned_model_comparison.png`
 - `README.md`
 - `SUMMARY.md`
 - `requirements.txt`
