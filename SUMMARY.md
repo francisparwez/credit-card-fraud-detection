@@ -18,9 +18,11 @@ The project will focus on handling class imbalance correctly, comparing classifi
 - 492 fraudulent transactions
 - Fraud rate: approximately 0.17%
 
-## Current Stage
+## Project Progress
 
-### 01 — Data Audit & Class Imbalance Baseline
+## Part 01 — Data Audit & Class Imbalance Baseline
+
+### Status
 
 ✅ Complete
 
@@ -38,7 +40,15 @@ The first stage covered:
 - ROC-AUC
 - PR-AUC
 
-### 02 — Leakage-Safe Preprocessing & Pipeline Setup
+### Key Finding
+
+A model that predicts every transaction as legitimate achieves approximately 99.83% accuracy while detecting no fraudulent transactions.
+
+This shows why accuracy alone is not suitable for evaluating fraud detection models.
+
+## Part 02 — Leakage-Safe Preprocessing & Pipeline Setup
+
+### Status
 
 ✅ Complete
 
@@ -52,7 +62,15 @@ The second stage covered:
 - leakage prevention
 - keeping the test data untouched
 
-### 03 — Imbalance Strategy Comparison
+### Key Finding
+
+The dataset was split into training and test sets using stratification so that the rare fraud class remained represented at approximately the same rate in both sets.
+
+Preprocessing was placed inside a pipeline, and an imbalanced-learn pipeline was introduced so that future resampling methods can be applied only to training data during cross-validation.
+
+## Part 03 — Imbalance Strategy Comparison
+
+### Status
 
 ✅ Complete
 
@@ -72,19 +90,7 @@ The evaluation metrics were:
 - ROC-AUC
 - PR-AUC
 
-## Initial Finding
-
-A model that predicts every transaction as legitimate achieves approximately 99.83% accuracy while detecting no fraudulent transactions.
-
-This shows why accuracy alone is not suitable for evaluating fraud detection models.
-
-## Part 02 Finding
-
-The dataset was split into training and test sets using stratification so that the rare fraud class remained represented at approximately the same rate in both sets.
-
-Preprocessing was placed inside a pipeline, and an imbalanced-learn pipeline was introduced so that future resampling methods can be applied only to training data during cross-validation.
-
-## Part 03 Finding
+### Key Finding
 
 The three imbalance strategies produced different precision, recall, F1-score, ROC-AUC and PR-AUC results.
 
@@ -157,9 +163,41 @@ XGBoost was the strongest tuned model based on the cross-validation results.
 
 Compared with the previous model-family comparison, XGBoost PR-AUC improved from 0.8033 to 0.8345 after tuning.
 
-The selected XGBoost model will be used in the next stage for threshold tuning and business cost analysis.
+The selected XGBoost model was carried forward to threshold tuning and business cost analysis.
 
 The test set remains untouched for final evaluation.
+
+## Part 06 — Threshold Tuning & Business Cost Analysis
+
+### Status
+
+✅ Complete
+
+The XGBoost model was evaluated across different classification thresholds.
+
+Out-of-fold probabilities from the training data were used to select the operating threshold without using the test set.
+
+Illustrative business costs were defined as:
+
+- missed fraud = 100 cost units
+- incorrectly blocked legitimate transaction = 5 cost units
+
+The selected threshold was 0.5200 because it produced the lowest total business cost among the tested thresholds.
+
+On the untouched test set, the selected threshold produced:
+
+- Precision: 0.6058
+- Recall: 0.8469
+- F1-score: 0.7064
+- ROC-AUC: 0.9812
+- PR-AUC: 0.8549
+- False Positives: 54
+- False Negatives: 15
+- Total Business Cost: 1770 cost units
+
+The threshold demonstrates the trade-off between catching fraudulent transactions and limiting incorrect blocks of legitimate transactions.
+
+The test set was used only for the final evaluation after the threshold had been selected.
 
 ## Current Files
 
@@ -172,6 +210,9 @@ The test set remains untouched for final evaluation.
 - `images/6_model_family_pr_curve.png`
 - `images/7_model_family_comparison.png`
 - `images/8_tuned_model_comparison.png`
+- `images/9_xgb_precision_recall_curve.png`
+- `images/10_business_cost_by_threshold.png`
+- `images/11_false_positive_false_negative_tradeoff.png`
 - `README.md`
 - `SUMMARY.md`
 - `requirements.txt`

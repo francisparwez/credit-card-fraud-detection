@@ -17,9 +17,9 @@ The goal is to build a fraud detection workflow that:
 - tunes the classification threshold using business costs
 - documents the final model and its limitations
 
-## Current Progress
+## Project Progress
 
-### Part 01 — Data Audit & Class Imbalance Baseline
+## Part 01 — Data Audit & Class Imbalance Baseline
 
 ✅ Complete
 
@@ -33,7 +33,13 @@ The first stage covered:
 - showing why accuracy is misleading for this problem
 - introducing the main evaluation metrics
 
-### Part 02 — Leakage-Safe Preprocessing & Pipeline Setup
+### Key Finding
+
+A naive model that predicts every transaction as legitimate achieves approximately 99.83% accuracy while detecting no fraudulent transactions.
+
+This shows why accuracy alone is misleading for this dataset and why fraud-focused metrics are needed.
+
+## Part 02 — Leakage-Safe Preprocessing & Pipeline Setup
 
 ✅ Complete
 
@@ -44,14 +50,22 @@ The second stage covered:
 - checking that the fraud rate was preserved
 - setting up preprocessing inside a pipeline
 - introducing an imbalanced-learn pipeline
-- keeping future resampling inside the training workflow
+- keeping resampling inside the training workflow
 - keeping the test set untouched
 
-### Part 03 — Imbalance Strategy Comparison
+### Key Finding
+
+The dataset was split into training and test sets using stratification so that the rare fraud class remained represented at approximately the same rate in both sets.
+
+Preprocessing was placed inside a pipeline, and the imbalanced-learn pipeline allowed resampling methods to be applied only during training and cross-validation.
+
+The test set remained separate from preprocessing, resampling and model selection.
+
+## Part 03 — Imbalance Strategy Comparison
 
 ✅ Complete
 
-The third stage compared three imbalance-handling strategies using the same Logistic Regression model:
+Three imbalance-handling strategies were compared using the same Logistic Regression model:
 
 - class weighting
 - random undersampling
@@ -67,7 +81,7 @@ The metrics used were:
 - ROC-AUC
 - PR-AUC
 
-## Imbalance Strategy Results
+### Imbalance Strategy Results
 
 The three strategies produced different trade-offs between precision and recall.
 
@@ -91,14 +105,24 @@ Random undersampling had a similar recall to the other strategies but produced t
 
 Based on the cross-validation results, class weighting was the strongest overall strategy at this stage.
 
-## Model Family Comparison
+## Part 04 — Model Family Comparison
 
-Two model families were compared using the class-weighted approach from Part 03:
+✅ Complete
+
+Two model families were compared using the class-weighted approach selected from Part 03:
 
 - Logistic Regression
 - XGBoost
 
 Both models were evaluated using stratified 5-fold cross-validation on the training data.
+
+The models were compared using:
+
+- precision
+- recall
+- F1-score
+- ROC-AUC
+- PR-AUC
 
 | Model               | Precision | Recall |     F1 | ROC-AUC | PR-AUC |
 | ------------------- | --------: | -----: | -----: | ------: | -----: |
@@ -123,7 +147,11 @@ It achieved higher precision, F1-score, ROC-AUC and PR-AUC than Logistic Regress
 
 PR-AUC remained an important metric because the fraud class is extremely rare.
 
-## Cross-Validation & Model Tuning
+XGBoost was selected as the stronger model family for further tuning.
+
+## Part 05 — Cross-Validation & Model Tuning
+
+✅ Complete
 
 The two candidate models were tuned using stratified 5-fold cross-validation.
 
@@ -148,7 +176,58 @@ Compared with the previous model-family comparison, XGBoost PR-AUC improved from
 
 ![Tuned Model Comparison](images/8_tuned_model_comparison.png)
 
-The test set was not used during tuning or model selection and remains reserved for final evaluation.
+The test set was not used during tuning or model selection and remained reserved for final evaluation.
+
+## Part 06 — Threshold Tuning & Business Cost Analysis
+
+✅ Complete
+
+The selected XGBoost model was evaluated across different classification thresholds.
+
+Out-of-fold probabilities from the training data were used to select the operating threshold, while the test set was kept untouched until final evaluation.
+
+Illustrative business costs were used:
+
+- missed fraud = 100 cost units
+- incorrectly blocked legitimate transaction = 5 cost units
+
+A missed fraudulent transaction was therefore treated as 20 times more costly than incorrectly blocking a legitimate transaction.
+
+The selected operating threshold was **0.5200**, which produced the lowest total business cost among the tested thresholds.
+
+### Threshold Analysis
+
+The threshold analysis showed the trade-off between false positives and false negatives.
+
+![XGBoost Precision-Recall Curve](images/9_xgb_precision_recall_curve.png)
+
+![Business Cost by Threshold](images/10_business_cost_by_threshold.png)
+
+![False Positive vs False Negative Trade-Off](images/11_false_positive_false_negative_tradeoff.png)
+
+### Final Test Set Results
+
+The threshold was selected using training data only. The test set was then used once for the final evaluation.
+
+| Metric              | Final Result |
+| ------------------- | -----------: |
+| Selected Threshold  |       0.5200 |
+| Precision           |       0.6058 |
+| Recall              |       0.8469 |
+| F1-score            |       0.7064 |
+| ROC-AUC             |       0.9812 |
+| PR-AUC              |       0.8549 |
+| False Positives     |           54 |
+| False Negatives     |           15 |
+| Total Business Cost |         1770 |
+
+The selected threshold produced a recall of 0.8469, meaning that the model identified a large proportion of fraudulent transactions.
+
+It also produced 54 false positives, showing the customer-impact trade-off involved in blocking legitimate transactions.
+
+The total business cost on the test set was 1770 cost units under the illustrative cost assumptions.
+
+ROC-AUC and PR-AUC were calculated from the model's fraud probabilities, while precision, recall and F1-score were calculated using the selected threshold.
 
 ## Dataset
 
@@ -162,14 +241,6 @@ The target column is `Class`:
 Fraud represents approximately 0.17% of the dataset.
 
 The raw CSV is kept locally and is not included in the GitHub repository because of its large file size.
-
-## Part 01 Results
-
-A naive baseline that predicts every transaction as legitimate achieves approximately 99.83% accuracy.
-
-It does not detect any fraudulent transactions.
-
-This shows why accuracy alone is misleading for this dataset and why fraud-focused metrics such as precision, recall, F1-score, ROC-AUC and PR-AUC are needed.
 
 ## Class Imbalance Visualizations
 
@@ -187,9 +258,9 @@ The dataset is split using stratification so that the small fraud class remains 
 
 Preprocessing is kept inside a pipeline rather than being applied to the full dataset before splitting.
 
-An imbalanced-learn pipeline is also set up so that resampling methods can later be applied only during model training and cross-validation.
+An imbalanced-learn pipeline is used so that resampling methods are applied only during model training and cross-validation.
 
-The test set is kept separate from preprocessing, resampling, and model selection.
+The test set is kept separate from preprocessing, resampling, hyperparameter tuning and model selection.
 
 ## Project Structure
 
@@ -208,23 +279,12 @@ credit-card-fraud-detection/
 │   ├── 5_model_family_roc_curve.png
 │   ├── 6_model_family_pr_curve.png
 │   ├── 7_model_family_comparison.png
-│   └── 8_tuned_model_comparison.png
+│   ├── 8_tuned_model_comparison.png
+│   ├── 9_xgb_precision_recall_curve.png
+│   ├── 10_business_cost_by_threshold.png
+│   └── 11_false_positive_false_negative_tradeoff.png
 ├── .gitignore
 ├── README.md
 ├── SUMMARY.md
 └── requirements.txt
 ```
-
-## Tools
-
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- scikit-learn
-- imbalanced-learn
-- XGBoost
-- Jupyter
-
-More tools will be added later as the modeling stages are completed.
