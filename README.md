@@ -229,6 +229,37 @@ The total business cost on the test set was 1770 cost units under the illustrati
 
 ROC-AUC and PR-AUC were calculated from the model's fraud probabilities, while precision, recall and F1-score were calculated using the selected threshold.
 
+## Part 07 — Final Model Evaluation & Stakeholder Reporting
+
+✅ Complete
+
+The final tuned XGBoost model was evaluated on the untouched test set using the selected threshold of 0.5200.
+
+The final test-set results were:
+
+| Metric              | Final Result |
+| ------------------- | -----------: |
+| Precision           |       0.6058 |
+| Recall              |       0.8469 |
+| F1-score            |       0.7064 |
+| ROC-AUC             |       0.9812 |
+| PR-AUC              |       0.8549 |
+| False Positives     |           54 |
+| False Negatives     |           15 |
+| Total Business Cost |         1770 |
+
+A final confusion matrix and test-metric chart were created.
+
+![Final Confusion Matrix](images/12_final_confusion_matrix.png)
+
+![Final Test Metrics](images/13_final_test_metrics.png)
+
+The final stakeholder report is available in:
+
+`reports/stakeholder_report.md`
+
+The project is now complete.
+
 ## Dataset
 
 The dataset contains 284,807 credit card transactions and 31 columns.
@@ -282,7 +313,11 @@ credit-card-fraud-detection/
 │   ├── 8_tuned_model_comparison.png
 │   ├── 9_xgb_precision_recall_curve.png
 │   ├── 10_business_cost_by_threshold.png
-│   └── 11_false_positive_false_negative_tradeoff.png
+│   ├── 11_false_positive_false_negative_tradeoff.png
+│   ├── 12_final_confusion_matrix.png
+│   └── 13_final_test_metrics.png
+├── reports/
+│   └── stakeholder_report.md
 ├── .gitignore
 ├── README.md
 ├── SUMMARY.md

@@ -199,6 +199,31 @@ The threshold demonstrates the trade-off between catching fraudulent transaction
 
 The test set was used only for the final evaluation after the threshold had been selected.
 
+## Part 07 — Final Model Evaluation & Stakeholder Reporting
+
+### Status
+
+✅ Complete
+
+The final tuned XGBoost model was evaluated on the untouched test set using the selected threshold of 0.5200.
+
+The final test-set results were:
+
+- Precision: 0.6058
+- Recall: 0.8469
+- F1-score: 0.7064
+- ROC-AUC: 0.9812
+- PR-AUC: 0.8549
+- False Positives: 54
+- False Negatives: 15
+- Total Business Cost: 1770 cost units
+
+A final confusion matrix and final test-metric visualization were created.
+
+A short stakeholder report was also created to summarize the final model, business trade-offs, key findings and limitations.
+
+The project is now complete.
+
 ## Current Files
 
 - `notebooks/01_credit_card_fraud_detection.ipynb`
@@ -213,12 +238,15 @@ The test set was used only for the final evaluation after the threshold had been
 - `images/9_xgb_precision_recall_curve.png`
 - `images/10_business_cost_by_threshold.png`
 - `images/11_false_positive_false_negative_tradeoff.png`
+- `images/12_final_confusion_matrix.png`
+- `images/13_final_test_metrics.png`
+- `reports/stakeholder_report.md`
 - `README.md`
 - `SUMMARY.md`
 - `requirements.txt`
 - `.gitignore`
 
-## Planned Stages
+## Completed Stages
 
 1. Data Audit & Class Imbalance Baseline
 2. Leakage-Safe Preprocessing & Pipeline Setup
@@ -227,3 +255,11 @@ The test set was used only for the final evaluation after the threshold had been
 5. Cross-Validation & Model Tuning
 6. Threshold Tuning & Business Cost Analysis
 7. Final Model Evaluation & Stakeholder Reporting
+
+## Project Status
+
+✅ Complete
+
+All seven project stages have been completed.
+
+The notebook, visualizations, stakeholder report and project documentation are ready for final submission.
